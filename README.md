@@ -63,6 +63,7 @@ Those commands are:
   --length <len>, -l <len>    Set buffer length in bytes of report to send/read
   --timeout <msecs>           Timeout in millisecs to wait for input reads
   --base <base>, -b <base>    Set decimal or hex buffer print mode
+  --width <width>, -w <width> Set number of bytes to print per line
   --quiet, -q                 Print out nothing except when reading data
   --verbose, -v               Print out extra information
 ```
