@@ -50,6 +50,7 @@ static void print_usage(char *myname)
 "  --length <len>, -l <len>    Set buffer length in bytes of report to send/read\n"
 "  --timeout <msecs>           Timeout in millisecs to wait for input reads \n"
 "  --base <base>, -b <base>    Set decimal or hex buffer print mode\n"
+"  --width <width> -w <width>  Set number of bytes to print per line\n"
 "  --quiet, -q                 Print out nothing except when reading data \n"
 "  --verbose, -v               Print out extra information\n"
 "  --version                   Print out hidapitester and hidapi version\n"
@@ -208,6 +209,7 @@ int main(int argc, char* argv[])
          {"length",       required_argument, 0,      'l'},
          {"buflen",       required_argument, 0,      'l'},
          {"base",         required_argument, 0,      'b'},
+         {"width",        required_argument, 0,      'w'},
          {"vidpid",       required_argument, &cmd,   CMD_VIDPID},
          {"usage",        required_argument, &cmd,   CMD_USAGE},
          {"usagePage",    required_argument, &cmd,   CMD_USAGEPAGE},
@@ -229,7 +231,7 @@ int main(int argc, char* argv[])
          {"get-report-descriptor", no_argument, &cmd, CMD_GET_REPORT_DESCRIPTOR},
          {NULL,0,0,0}
         };
-    char* shortopts = "vht:l:qb:";
+    char* shortopts = "vht:l:qb:w:";
 
     bool done = false;
     int option_index = 0, opt;
@@ -495,6 +497,15 @@ int main(int argc, char* argv[])
         case 'b':
             print_base = strtol(optarg,NULL,10);
             msginfo("Set print_base to %d\n", print_base);
+            break;
+        case 'w':
+            print_width = strtol(optarg,NULL,10);
+            msginfo("Set print_width to %d\n", print_width);
+
+            if (print_width <= 0) {
+                msg("Error: print width must be greater than 0.\n");
+                done = true;
+            }
             break;
         case 'q':
             msg_quiet = true;
